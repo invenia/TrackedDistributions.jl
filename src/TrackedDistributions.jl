@@ -1,6 +1,16 @@
 __precompile__()
 module TrackedDistributions
 
-# Package code goes here.
+using Reexport
+
+export
+    TDiagonalNormal,
+    TMVDiagonalNormal
+
+@reexport using Distributions
+
+include("./distributions.jl")
+
+
 
 end
