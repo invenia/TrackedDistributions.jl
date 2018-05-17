@@ -58,12 +58,12 @@ stages:
     - docker-ci
   <<: *test_docker
 
-"0.6 (Linux, 32-bit, Shell)":
-  tags:
-    - linux
-    - 32-bit
-    - shell-ci
-  <<: *test_shell_06
+# "0.6 (Linux, 32-bit, Shell)":
+#   tags:
+#     - linux
+#     - 32-bit
+#     - shell-ci
+#   <<: *test_shell_06
 
 "Coverage":
   stage: coverage
