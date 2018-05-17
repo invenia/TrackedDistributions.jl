@@ -43,13 +43,6 @@ stages:
     - julia -e "Pkg.clone(pwd()); Pkg.build(\"$PKG_NAME\"); Pkg.test(\"$PKG_NAME\"; coverage=true)"
     - julia-coverage "$PKG_NAME"
 
-
-"0.6 (Mac)":
-  tags:
-    - mac
-    - shell-ci
-  <<: *test_shell_06
-
 "0.6 (Linux, 64-bit, Docker)":
   image: 292522074875.dkr.ecr.us-east-1.amazonaws.com/julia-gitlab-ci:0.6
   tags:
