@@ -65,26 +65,6 @@ stages:
     - shell-ci
   <<: *test_shell_06
 
-"0.7- (Mac)":
-  tags:
-    - mac
-    - shell-ci
-  <<: *test_shell_07-
-
-"0.7- (Linux, 64-bit)":
-  tags:
-    - linux
-    - 64-bit
-    - shell-ci
-  <<: *test_shell_07-
-
-"0.7- (Linux, 32-bit)":
-  tags:
-    - linux
-    - 32-bit
-    - shell-ci
-  <<: *test_shell_07-
-
 "Coverage":
   stage: coverage
   image: 292522074875.dkr.ecr.us-east-1.amazonaws.com/julia-gitlab-ci:0.6
