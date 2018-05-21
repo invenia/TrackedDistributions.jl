@@ -5,7 +5,8 @@ using Reexport
 
 export
     TDiagonalNormal,
-    TMVDiagonalNormal
+    TMVDiagonalNormal,
+    TrArray
 
 @reexport using Distributions
 
