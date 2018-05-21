@@ -1,5 +1,6 @@
 @testset "DiagonalNormal API: Reals" begin
     dn = TMVDiagonalNormal([0, 0], [1, 1])
+    dn = TMVDiagonalNormal([0., 0.], [1., 1.])
     @test length(dn) == 2
     @test size(dn) == (2,)
     @test eltype(dn) == Float64
@@ -14,6 +15,9 @@
     rng = MersenneTwister(23)
     rng2 = MersenneTwister(23)
     @test rand(rng, dn, 3) ≈  rand(rng2, mv, 3)
+
+    rng = MersenneTwister(23)
+    @test size(rand(rng, dn)) == (2,)
     # Gaussian evaluated at peak
     max_gaussian = prod(1./sqrt.(2 * pi * var(dn)))
     # gaussian evaluated at [1, 1]
@@ -49,3 +53,8 @@ end
     @test_throws MethodError entropy(dn)
     @test_throws MethodError loglikelihood(dn, [[0 1]; [0 1]])
 end
+dn = TMVDiagonalNormal([0, 0], [1, 1])
+mv = convert(Distributions.MvNormal, dn)
+rng = MersenneTwister(1)
+rng2 = MersenneTwister(1)
+rand(rng, dn, 3) ≈  rand(rng2, mv, 3)
