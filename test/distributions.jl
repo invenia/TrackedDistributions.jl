@@ -33,7 +33,7 @@ end
 
 @testset "DiagonalNormal API: TrackedArray" begin
     Tracked = Flux.Tracker.TrackedArray
-    dn = TMVDiagonalNormal(Tracked([0, 0]), Tracked([1, 1]))
+    dn = TMVDiagonalNormal(Tracked([0., 0]), Tracked([1., 1]))
     @test length(dn) == 2
     @test size(dn) == (2,)
     @test eltype(dn) == Float64
@@ -44,6 +44,9 @@ end
     @test cov(dn) == Tracked(exp(2) * eye(2))
     @test isa(cov(dn), Tracked)
     @test cor(dn) == eye(2)
+    rng = MersenneTwister(23)
+    @test size(rand(rng, dn)) == (2,)
+    @test_throws ErrorException rand(rng, dn, 1)
     @test_throws MethodError convert(Distributions.MvNormal, dn)
     @test_throws MethodError rand(dn, 3)
     @test_throws MethodError pdf(dn, [0, 0])
@@ -52,9 +55,8 @@ end
     @test_throws MethodError logpdf(dn, [[0 1]; [0 1]])
     @test_throws MethodError entropy(dn)
     @test_throws MethodError loglikelihood(dn, [[0 1]; [0 1]])
+
+    dn = TMVDiagonalNormal(Tracked([0, 0]), Tracked([1, 1]))
+    rng = MersenneTwister(23)
+    @test size(rand(rng, dn)) == (2,)
 end
-dn = TMVDiagonalNormal([0, 0], [1, 1])
-mv = convert(Distributions.MvNormal, dn)
-rng = MersenneTwister(1)
-rng2 = MersenneTwister(1)
-rand(rng, dn, 3) ≈  rand(rng2, mv, 3)
