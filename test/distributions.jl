@@ -62,3 +62,31 @@ end
     rng = MersenneTwister(23)
     @test size(rand(rng, dn)) == (2,)
 end
+
+@testset "DiagonalNormal API: Univariate" begin
+    # There are no univariates! Convert to multivariate. Only works for reals.
+    @test typeof(TMVDiagonalNormal([0], [1]))==typeof(TMVDiagonalNormal(0, 1))
+end
+
+
+@testset "DiagonalNormal API: Non-trivial cases" begin
+    # Test log_pdf for D=1 case; x=0, μ=0, logσ=1
+    DN = TMVDiagonalNormal([0.0], [1.])
+    logP = logpdf(DN, [0.])
+    @test logP ≈ -0.5*(2 + log(2*pi))
+
+    # Test log_pdf D=3 case; x=0, μ=0, logσ=1
+    DN = TMVDiagonalNormal(zeros(3), ones(3))
+    X = zeros(1,3)
+    logP = logpdf(DN, X[1,:])
+    @test logP ≈ -0.5*(6 + 3*log(2*pi))
+
+    # Test if case N=3,D=2 where we pass in x = column vec
+    rng = MersenneTwister(9000)
+    N = 3
+    D = 2
+    x = rand(rng, (N, D))
+    DN = TMVDiagonalNormal(zeros(D), ones(D))
+    logP = logpdf(DN, x[3,:])
+    @test typeof(logP)==Float64
+end

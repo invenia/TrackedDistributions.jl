@@ -3,13 +3,16 @@ import Flux.Tracker:
     TrackedReal
 
 const TrArray = Union{Array{<:Real}, TrackedArray}
-const TrReal = Union{Array{<:Real}, TrackedReal}
+const TrReal = Union{<:Real, TrackedReal}
 
 abstract type AbstractTMVDiagonalNormal <: ContinuousMultivariateDistribution end
+abstract type AbstractTDiagonalNormal <: ContinuousUnivariateDistribution end
 
 # Distributions.rand(rng::AbstractRNG, d::AbstractTMVDiagonalNormal) = Distributions._rand!(rng, d, Vector{eltype(d)})(length(d))
 # Distributions.rand(rng::AbstractRNG, d::AbstractTMVDiagonalNormal, n::Int) = Distributions._rand!(rng, d, Matrix{eltype(d)}(length(d), n))
 # Distributions.rand!(rng::AbstractRNG, d::AbstractTMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(rng, d, x)
+
+
 
 struct TMVDiagonalNormal{T<:TrArray} <: AbstractTMVDiagonalNormal
     μ::T
@@ -21,6 +24,7 @@ struct TMVDiagonalNormal{T<:TrArray} <: AbstractTMVDiagonalNormal
     end
 end
 
+TMVDiagonalNormal(μ::T, logσ::T) where {T<:Real} = TMVDiagonalNormal([μ], [logσ]) # Convert to multivariate case
 TMVDiagonalNormal(μ::T, logσ::T) where {T<:TrArray} = TMVDiagonalNormal{T}(μ, logσ)
 
 Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:Array{<:Real}}) = MvNormal(d.μ, exp.(d.logσ))
