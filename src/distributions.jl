@@ -91,3 +91,13 @@ end
 Distributions.rand(rng, d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}) where {T<:Real, N} = sample(rng, d)
 Distributions.rand(d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}) where {T<:Real, N} = error("Seeding Enforced. use rand(rng, d)")
 Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}, n::Int) where {T<:Real, N} = error("Not Implemented Error")
+
+Distributions._logpdf(d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}, x::AbstractArray) where {T<:Real, N} = log_pdf(d, x)
+
+function log_pdf(d::TMVDiagonalNormal{TrackedArray{T, 1, Array{T, 1}}}, x::AbstractArray) where {T<:Real, N}
+    μ = d.μ
+    logσ = d.logσ
+    n = 1
+    D = length(μ)
+    return -.5 * ( n * (D * log(2π) + 2 * sum(logσ)) + sum((x .- μ).^2 .* exp.(-2 .* logσ)) )
+end
