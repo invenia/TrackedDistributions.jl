@@ -46,15 +46,17 @@ end
     @test cor(dn) == eye(2)
     rng = MersenneTwister(23)
     @test size(rand(rng, dn)) == (2,)
+    @test logpdf(dn, [0, 0]) == logpdf(MvNormal(zeros(2), exp.(ones(2))), zeros(2))
+    @test_throws MethodError (logpdf(dn, [[0 1]; [0 1]]))
+
+    @test pdf(dn, [0, 0]) == pdf(MvNormal(zeros(2), exp.(ones(2))), zeros(2))
+    @test_throws MethodError pdf(dn, [[0 1]; [0 1]])
     @test_throws ErrorException rand(rng, dn, 1)
     @test_throws MethodError convert(Distributions.MvNormal, dn)
     @test_throws MethodError rand(dn, 3)
-    @test_throws MethodError pdf(dn, [0, 0])
-    @test_throws MethodError pdf(dn, [[0 1]; [0 1]])
-    @test_throws MethodError logpdf(dn, [0, 0])
-    @test_throws MethodError logpdf(dn, [[0 1]; [0 1]])
+
     @test_throws MethodError entropy(dn)
-    @test_throws MethodError loglikelihood(dn, [[0 1]; [0 1]])
+    @test_nowarn loglikelihood(dn, [[0 1]; [0 1]])
 
     dn = TMVDiagonalNormal(Tracked([0, 0]), Tracked([1, 1]))
     rng = MersenneTwister(23)

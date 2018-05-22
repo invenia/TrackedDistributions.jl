@@ -94,7 +94,7 @@ Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{TrackedArray{T, N, Arr
 
 Distributions._logpdf(d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}, x::AbstractArray) where {T<:Real, N} = log_pdf(d, x)
 
-function log_pdf(d::TMVDiagonalNormal{TrackedArray{T, 1, Array{T, 1}}}, x::AbstractArray) where {T<:Real, N}
+function log_pdf(d::TMVDiagonalNormal{TrackedArray{T, 1, Array{T, 1}}}, x::AbstractArray) where {T<:Real}
     μ = d.μ
     logσ = d.logσ
     n = 1
