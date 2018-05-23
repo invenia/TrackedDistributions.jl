@@ -3,6 +3,10 @@ import Flux.Tracker:
     TrackedReal
 
 const TrArray = Union{Array{<:Real}, TrackedArray}
+const TrArray1 = Union{Array{<:Real, 1}, TrackedArray{<:Real, 1, <:AbstractArray{<:Real, 1}}}
+const TrArray2 = Union{Array{<:Real, 2}, TrackedArray{<:Real, 1, <:AbstractArray{<:Real, 2}}}
+#const TrArray{T, N} = Union{Array{T, N} where {T<:Real} where {N<:Int}, TrackedArray{T, N, AbstractArray{T, N}} where {T<:Real} where {N<:Int}}
+#TrArray = TrArray{T, N} where {T, N}
 const TrReal = Union{<:Real, TrackedReal}
 
 abstract type AbstractTMVDiagonalNormal <: ContinuousMultivariateDistribution end
@@ -12,19 +16,21 @@ abstract type AbstractTDiagonalNormal <: ContinuousUnivariateDistribution end
 # Distributions.rand(rng::AbstractRNG, d::AbstractTMVDiagonalNormal, n::Int) = Distributions._rand!(rng, d, Matrix{eltype(d)}(length(d), n))
 # Distributions.rand!(rng::AbstractRNG, d::AbstractTMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(rng, d, x)
 
-
-
 struct TMVDiagonalNormal{T<:TrArray} <: AbstractTMVDiagonalNormal
     μ::T
     logσ::T
-    function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:TrArray
+    function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:TrArray1
         @assert size(μ) == size(logσ)
-        @assert ndims(μ) == 1
         new(μ, logσ)
+    end
+    function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:TrArray2
+        @assert size(μ,2) == 1
+        @assert size(logσ,2) == 1
+        TMVDiagonalNormal(squeeze(μ, 2), squeeze(logσ, 2))
     end
 end
 
-TMVDiagonalNormal(μ::T, logσ::T) where {T<:Real} = TMVDiagonalNormal([μ], [logσ]) # Convert to multivariate case
+TMVDiagonalNormal(μ::T, logσ::T) where {T<:Real} = TMVDiagonalNormal{Array{T, 1}}([μ], [logσ]) # Convert to multivariate case
 TMVDiagonalNormal(μ::T, logσ::T) where {T<:TrArray} = TMVDiagonalNormal{T}(μ, logσ)
 
 Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:Array{<:Real}}) = MvNormal(d.μ, exp.(d.logσ))
@@ -51,8 +57,8 @@ Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal, x::AbstractVector) 
 Distributions._rand!(d::TMVDiagonalNormal, x::AbstractVector) = Distributions._rand!(Base.GLOBAL_RNG, convert(MvNormal, d), x)
 
 # For sampling with TrackedArrays, we want to use the reparmaterisation trick:
-Distributions.rand(rng, d::TMVDiagonalNormal{TrackedArray}) = sample(rng, d)
-Distributions.rand(rng, d::TMVDiagonalNormal{TrackedArray}, n::Int) = sample(rng, d, n)
+Distributions.rand(rng, d::TMVDiagonalNormal{<:TrackedArray}) = sample(rng, d)
+Distributions.rand(rng, d::TMVDiagonalNormal{<:TrackedArray}, n::Int) = sample(rng, d, n)
 
 Distributions._rand!(d::TMVDiagonalNormal{<:TrackedArray}, x::VecOrMat) = error("Not Implemented Error")
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal{<:TrackedArray}, x::VecOrMat) = error("Not Implemented Error")

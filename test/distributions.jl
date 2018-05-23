@@ -29,6 +29,9 @@
     @test logpdf(dn, [[0 1]; [0 1]]) == log.(expected_vec)
     @test entropy(dn) == entropy(mv)
     @test loglikelihood(dn, [[0 1]; [0 1]]) == sum(log.(expected_vec))
+
+    @test_throws AssertionError TMVDiagonalNormal(zeros(2,2), ones(2,2))
+    @test typeof(TMVDiagonalNormal(ones(2)[:, :], ones(2)[:, :])) == typeof(TMVDiagonalNormal(ones(2), ones(2)))
 end
 
 @testset "DiagonalNormal API: TrackedArray" begin
