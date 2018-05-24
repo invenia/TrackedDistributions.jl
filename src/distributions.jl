@@ -2,28 +2,29 @@ import Flux.Tracker:
     TrackedArray,
     TrackedReal
 
-const TrArray = Union{Array{<:Real}, TrackedArray}
-const TrArray1 = Union{Array{<:Real, 1}, TrackedArray{<:Real, 1, <:AbstractArray{<:Real, 1}}}
-const TrArray2 = Union{Array{<:Real, 2}, TrackedArray{<:Real, 1, <:AbstractArray{<:Real, 2}}}
+# const TrArray = Union{Array{<:Real}, TrackedArray}
+# const TrArray1 = Union{Array{<:Real, 1}, TrackedArray{<:Real, 1, <:AbstractArray{<:Real, 1}}}
+# const TrArray2 = Union{Array{<:Real, 2}, TrackedArray{<:Real, 1, <:AbstractArray{<:Real, 2}}}
+
 #const TrArray{T, N} = Union{Array{T, N} where {T<:Real} where {N<:Int}, TrackedArray{T, N, AbstractArray{T, N}} where {T<:Real} where {N<:Int}}
 #TrArray = TrArray{T, N} where {T, N}
 const TrReal = Union{<:Real, TrackedReal}
 
-abstract type AbstractTMVDiagonalNormal <: ContinuousMultivariateDistribution end
 abstract type AbstractTDiagonalNormal <: ContinuousUnivariateDistribution end
+abstract type AbstractTMVDiagonalNormal <: ContinuousMultivariateDistribution end
 
 # Distributions.rand(rng::AbstractRNG, d::AbstractTMVDiagonalNormal) = Distributions._rand!(rng, d, Vector{eltype(d)})(length(d))
 # Distributions.rand(rng::AbstractRNG, d::AbstractTMVDiagonalNormal, n::Int) = Distributions._rand!(rng, d, Matrix{eltype(d)}(length(d), n))
 # Distributions.rand!(rng::AbstractRNG, d::AbstractTMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(rng, d, x)
 
-struct TMVDiagonalNormal{T<:TrArray} <: AbstractTMVDiagonalNormal
+struct TMVDiagonalNormal{T<:AbstractArray} <: AbstractTMVDiagonalNormal
     μ::T
     logσ::T
-    function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:TrArray1
+    function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:AbstractArray{S, 1} where {S}
         @assert size(μ) == size(logσ)
         new(μ, logσ)
     end
-    function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:TrArray2
+    function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:AbstractArray{S, 2} where {S}
         @assert size(μ,2) == 1
         @assert size(logσ,2) == 1
         TMVDiagonalNormal(squeeze(μ, 2), squeeze(logσ, 2))
@@ -31,7 +32,7 @@ struct TMVDiagonalNormal{T<:TrArray} <: AbstractTMVDiagonalNormal
 end
 
 TMVDiagonalNormal(μ::T, logσ::T) where {T<:Real} = TMVDiagonalNormal{Array{T, 1}}([μ], [logσ]) # Convert to multivariate case
-TMVDiagonalNormal(μ::T, logσ::T) where {T<:TrArray} = TMVDiagonalNormal{T}(μ, logσ)
+TMVDiagonalNormal(μ::T, logσ::T) where {T<:AbstractArray} = TMVDiagonalNormal{T}(μ, logσ)
 
 Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:Array{<:Real}}) = MvNormal(d.μ, exp.(d.logσ))
 #Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:TrackedArray}) = MvNormal(d.μ.data, exp.(d.logσ.data))
