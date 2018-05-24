@@ -6,7 +6,6 @@ using Reexport
 export
     TDiagonalNormal,
     TMVDiagonalNormal,
-    TrArray,
     kl_q_p
 
 @reexport using Distributions
