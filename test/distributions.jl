@@ -71,7 +71,10 @@ end
     @test TrackedDistributions.sample(rng1, dn)==rand(rng2, dn)
     x = rand(2)
     @test TrackedDistributions.log_pdf(dn, x) == logpdf(dn, x)
-end
+
+    @test isa(data(dn), TrackedDistributions.TMVDiagonalNormal{Array{Float64,1}})
+
+    end
 
 @testset "DiagonalNormal API: Univariate" begin
     # There are no univariates! Convert to multivariate. Only works for reals.

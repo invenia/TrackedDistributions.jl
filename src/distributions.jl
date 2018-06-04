@@ -69,7 +69,10 @@ Distributions._rand!(d::TMVDiagonalNormal{<:TrackedArray}, x::AbstractMatrix) = 
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal{<:TrackedArray}, x::AbstractVector) = error("Not Implemented Error")
 Distributions._rand!(d::TMVDiagonalNormal{<:TrackedArray}, x::AbstractVector) = error("Not Implemented Error")
 
-
+data(d::TrackedDistributions.TMVDiagonalNormal{T}) where
+    {T<:TrackedArray{S, N, Array{S,N}}} where
+    {S<:Real, N} =
+    TrackedDistributions.TMVDiagonalNormal(Array{Float64}(mean(d).data), Array{Float64}(log.(sqrt.(var(d)).data)))
 """
     kl_q_p(q::DiagonalNormal, p::DiagonalNormal)
 
