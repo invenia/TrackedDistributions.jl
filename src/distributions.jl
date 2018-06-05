@@ -73,6 +73,10 @@ data(d::TrackedDistributions.TMVDiagonalNormal{T}) where
     {T<:TrackedArray{S, N, Array{S,N}}} where
     {S<:Real, N} =
     TrackedDistributions.TMVDiagonalNormal(Array{Float64}(mean(d).data), Array{Float64}(log.(sqrt.(var(d)).data)))
+
+# Getters
+logσ(d::TMVDiagonalNormal) = d.logσ
+
 """
     kl_q_p(q::DiagonalNormal, p::DiagonalNormal)
 

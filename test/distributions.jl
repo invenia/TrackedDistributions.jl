@@ -1,3 +1,5 @@
+Tracked = Flux.Tracker.TrackedArray
+
 @testset "DiagonalNormal API: Reals" begin
     dn = TMVDiagonalNormal([0, 0], [1, 1])
     dn = TMVDiagonalNormal([0., 0.], [1., 1.])
@@ -35,7 +37,6 @@
 end
 
 @testset "DiagonalNormal API: TrackedArray" begin
-    Tracked = Flux.Tracker.TrackedArray
     dn = TMVDiagonalNormal(Tracked([0., 0]), Tracked([1., 1]))
     @test length(dn) == 2
     @test size(dn) == (2,)
@@ -102,4 +103,17 @@ end
     DN = TMVDiagonalNormal(zeros(D), ones(D))
     logP = logpdf(DN, x[3,:])
     @test typeof(logP)==Float64
+end
+
+@testset "Getters" begin
+
+    μ = [0.0]
+    σ = [1.6]
+    DN = TMVDiagonalNormal(μ, log.(σ))
+    @test logσ(DN) == log.(σ)
+    @test typeof(logσ(DN)) <: Vector{Float64}
+    DN = TMVDiagonalNormal(Tracked(μ), Tracked(log.(σ)))
+    @test logσ(DN) == Tracked(log.(σ))
+    @test typeof(logσ(DN)) <: Tracked{T, N, Array{T,N}} where {T, N}
+
 end

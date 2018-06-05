@@ -7,7 +7,8 @@ export
     TDiagonalNormal,
     TMVDiagonalNormal,
     kl_q_p,
-    data
+    data,
+    logσ
 
 @reexport using Distributions
 
