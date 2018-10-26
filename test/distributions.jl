@@ -7,12 +7,12 @@ Tracked = Flux.Tracker.TrackedArray
     @test size(dn) == (2,)
     @test eltype(dn) == Float64
     @test mean(dn) == [0, 0]
-    @test var(dn) == exp(2) * [1, 1]
-    @test cov(dn) == exp(2) * eye(2)
-    @test cor(dn) == eye(2)
+    @test var(dn) == fill(exp(2), 2)
+    @test cov(dn) == diagm(0 => fill(exp(2), 2))
+    @test cor(dn) == diagm(0 => ones(2))
     mv = convert(Distributions.MvNormal, dn)
-    @test mean(mv) == [0.0, 0.0]
-    @test cov(mv) ≈ exp(2) * eye(2)
+    @test mean(mv) == zeros(2)
+    @test cov(mv) ≈ Diagonal(fill(exp(2), 2))
     @test size(rand(dn, 3)) == (2, 3)
     rng = MersenneTwister(23)
     rng2 = MersenneTwister(23)
@@ -21,7 +21,7 @@ Tracked = Flux.Tracker.TrackedArray
     rng = MersenneTwister(23)
     @test size(rand(rng, dn)) == (2,)
     # Gaussian evaluated at peak
-    max_gaussian = prod(1./sqrt.(2 * pi * var(dn)))
+    max_gaussian = prod(1 ./ sqrt.(2π * var(dn)))
     # gaussian evaluated at [1, 1]
     value = max_gaussian * prod(exp.(- [1, 1]/(2 * var(dn)[1])))
     expected_vec = [max_gaussian, value]
@@ -45,9 +45,9 @@ end
     @test isa(mean(dn), Tracked)
     @test var(dn) == exp(2) * Tracked([1, 1])
     @test isa(var(dn), Tracked)
-    @test cov(dn) == Tracked(exp(2) * eye(2))
+    @test cov(dn) == Tracked(diagm(0 => fill(exp(2), 2)))
     @test isa(cov(dn), Tracked)
-    @test cor(dn) == eye(2)
+    @test cor(dn) == Diagonal(ones(2))
     rng = MersenneTwister(23)
     @test size(rand(rng, dn)) == (2,)
     @test logpdf(dn, [0, 0]) == logpdf(MvNormal(zeros(2), exp.(ones(2))), zeros(2))
@@ -99,7 +99,7 @@ end
     rng = MersenneTwister(9000)
     N = 3
     D = 2
-    x = rand(rng, (N, D))
+    x = rand(rng, Float64, (N, D))
     DN = TMVDiagonalNormal(zeros(D), ones(D))
     logP = logpdf(DN, x[3,:])
     @test typeof(logP)==Float64
