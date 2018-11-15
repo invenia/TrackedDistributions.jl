@@ -16,7 +16,7 @@ stages:
   script:
     - source julia-ci export
     # - export PYTHON=""  # Configure PyCall to use the Conda.jl package's Python
-    - julia -e "Pkg.clone(pwd()); Pkg.build(\"$PKG_NAME\"); Pkg.test(\"$PKG_NAME\"; coverage=true)"
+    - ./julia-ci test
     - ./julia-ci coverage
   after_script:
     - ./julia-ci clean
@@ -26,9 +26,19 @@ stages:
     JULIA_VERSION: "0.6"
   <<: *test_shell
 
-.test_shell_07-: &test_shell_07-
+.test_shell_07: &test_shell_07
   variables:
-    JULIA_VERSION: "0.7-"
+    JULIA_VERSION: "0.7"
+  <<: *test_shell
+
+.test_shell_10: &test_shell_10
+  variables:
+    JULIA_VERSION: "1.0"
+  <<: *test_shell
+
+.test_shell_nightly: &test_shell_nightly
+  variables:
+    JULIA_VERSION: "nightly"
   allow_failure: true
   <<: *test_shell
 
@@ -57,6 +67,27 @@ stages:
 #     - 32-bit
 #     - shell-ci
 #   <<: *test_shell_06
+
+"0.7 (Linux, 64-bit, Shell)":
+  tags:
+    - linux
+    - 64-bit
+    - shell-ci
+  <<: *test_shell_07
+
+"1.0 (Linux, 64-bit, Shell)":
+  tags:
+    - linux
+    - 64-bit
+    - shell-ci
+  <<: *test_shell_10
+
+"Nightly (Linux, 64-bit, Shell)":
+  tags:
+    - linux
+    - 64-bit
+    - shell-ci
+  <<: *test_shell_nightly
 
 "Coverage":
   stage: coverage

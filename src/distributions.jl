@@ -27,7 +27,7 @@ struct TMVDiagonalNormal{T<:AbstractArray} <: AbstractTMVDiagonalNormal
     function TMVDiagonalNormal{T}(μ::T, logσ::T) where T<:AbstractArray{S, 2} where {S}
         @assert size(μ,2) == 1
         @assert size(logσ,2) == 1
-        TMVDiagonalNormal(squeeze(μ, 2), squeeze(logσ, 2))
+        TMVDiagonalNormal(dropdims(μ, dims=2), dropdims(logσ, dims=2))
     end
 end
 
@@ -41,25 +41,25 @@ Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:Array{<:Real}}) = MvNorm
 Base.length(d::TMVDiagonalNormal) = length(d.μ)
 sampler(d::TMVDiagonalNormal) = d
 #Distributions._rand!(d::TMVDiagonalNormal, x::AbstractArray) = Distributions._rand!(convert(MvNormal, d), x)
-Distributions.rand(rng, d::TMVDiagonalNormal{<:Array{<:Real}}) = Distributions.rand(rng, convert(MvNormal, d))
-Distributions.rand(rng, d::TMVDiagonalNormal{<:Array{<:Real}}, n::Int) = Distributions.rand(rng, convert(MvNormal, d), n)
+Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{<:Array{<:Real}}) = Distributions.rand(rng, convert(MvNormal, d))
+Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{<:Array{<:Real}}, n::Int) = Distributions.rand(rng, convert(MvNormal, d), n)
 Distributions._logpdf(d::TMVDiagonalNormal, x::AbstractArray) = Distributions._logpdf(convert(MvNormal, d), x)
-Base.mean(d::TMVDiagonalNormal) = d.μ
-Base.var(d::TMVDiagonalNormal) = exp.(2 * d.logσ)
+Distributions.mean(d::TMVDiagonalNormal) = d.μ
+Distributions.var(d::TMVDiagonalNormal) = exp.(2 * d.logσ)
 Distributions.entropy(d::TMVDiagonalNormal, args...) = Distributions.entropy(convert(MvNormal, d), args...)
-Base.cov(d::TMVDiagonalNormal) = diagm(Distributions.var(d))
+Distributions.cov(d::TMVDiagonalNormal) = VERSION >= v"1.0" ? diagm(0 => Distributions.var(d)) : diagm(Distributions.var(d))
 
-Distributions._rand!(d::TMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(Base.GLOBAL_RNG, convert(MvNormal, d), x)
+Distributions._rand!(d::TMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(Random.GLOBAL_RNG, convert(MvNormal, d), x)
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(rng, convert(MvNormal, d), x)
 
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal, x::AbstractMatrix) = Distributions._rand!(rng, convert(MvNormal, d), x)
-Distributions._rand!(d::TMVDiagonalNormal, x::AbstractMatrix) = Distributions._rand!(Base.GLOBAL_RNG, convert(MvNormal, d), x)D
+Distributions._rand!(d::TMVDiagonalNormal, x::AbstractMatrix) = Distributions._rand!(Random.GLOBAL_RNG, convert(MvNormal, d), x)D
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal, x::AbstractVector) = Distributions._rand!(rng, convert(MvNormal, d), x)
-Distributions._rand!(d::TMVDiagonalNormal, x::AbstractVector) = Distributions._rand!(Base.GLOBAL_RNG, convert(MvNormal, d), x)
+Distributions._rand!(d::TMVDiagonalNormal, x::AbstractVector) = Distributions._rand!(Random.GLOBAL_RNG, convert(MvNormal, d), x)
 
 # For sampling with TrackedArrays, we want to use the reparmaterisation trick:
-Distributions.rand(rng, d::TMVDiagonalNormal{<:TrackedArray}) = sample(rng, d)
-Distributions.rand(rng, d::TMVDiagonalNormal{<:TrackedArray}, n::Int) = sample(rng, d, n)
+Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{<:TrackedArray}) = sample(rng, d)
+Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{<:TrackedArray}, n::Int) = sample(rng, d, n)
 
 Distributions._rand!(d::TMVDiagonalNormal{<:TrackedArray}, x::VecOrMat) = error("Not Implemented Error")
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal{<:TrackedArray}, x::VecOrMat) = error("Not Implemented Error")
@@ -69,10 +69,14 @@ Distributions._rand!(d::TMVDiagonalNormal{<:TrackedArray}, x::AbstractMatrix) = 
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal{<:TrackedArray}, x::AbstractVector) = error("Not Implemented Error")
 Distributions._rand!(d::TMVDiagonalNormal{<:TrackedArray}, x::AbstractVector) = error("Not Implemented Error")
 
-data(d::TrackedDistributions.TMVDiagonalNormal{T}) where
-    {T<:TrackedArray{S, N, Array{S,N}}} where
-    {S<:Real, N} =
-    TrackedDistributions.TMVDiagonalNormal(Array{Float64}(mean(d).data), Array{Float64}(log.(sqrt.(var(d)).data)))
+function data(
+    d::TrackedDistributions.TMVDiagonalNormal{T}
+) where {N, S<:Real, T<:TrackedArray{S, N, Array{S,N}}}
+    TrackedDistributions.TMVDiagonalNormal(
+        Array{Float64}(mean(d).data),
+        Array{Float64}(log.(sqrt.(var(d)).data)),
+    )
+end
 
 # Getters
 logσ(d::TMVDiagonalNormal) = d.logσ
@@ -106,7 +110,7 @@ function sample(rng::AbstractRNG, d::TMVDiagonalNormal)
     return μ .+ exp.(logσ) .* randn(rng, Float64, size(μ))
 end
 
-Distributions.rand(rng, d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}) where {T<:Real, N} = sample(rng, d)
+Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}) where {T<:Real, N} = sample(rng, d)
 Distributions.rand(d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}) where {T<:Real, N} = error("Seeding Enforced. use rand(rng, d)")
 Distributions.rand(rng::AbstractRNG, d::TMVDiagonalNormal{TrackedArray{T, N, Array{T, N}}}, n::Int) where {T<:Real, N} = error("Not Implemented Error")
 
