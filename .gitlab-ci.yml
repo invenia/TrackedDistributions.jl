@@ -9,34 +9,7 @@ include:
   - https://gitlab.invenia.ca/infrastructure/gitlab-ci-helper/raw/master/gitlab-templates/documentation.yml
 
 variables:
-  JULIA_IMAGE: 468665244580.dkr.ecr.us-east-1.amazonaws.com/julia-gitlab-ci:0.6
-
-.test_shell_0_7:
-  variables:
-    JULIA_VERSION: "0.7"
-  extends: .test_shell
-
-
-"0.6 (Linux, 64-bit, Docker)":
-  tags:
-    - linux
-    - 64-bit
-    - docker-ci
-  extends: .test_docker
-
-# "0.6 (Linux, 32-bit, Shell)":
-#   tags:
-#     - linux
-#     - 32-bit
-#     - shell-ci
-#   extends: .test_shell_0_6
-
-"0.7 (Linux, 64-bit, Shell)":
-  tags:
-    - linux
-    - 64-bit
-    - shell-ci
-  extends: .test_shell_0_7
+  JULIA_IMAGE: 468665244580.dkr.ecr.us-east-1.amazonaws.com/julia-gitlab-ci:1.0
 
 "1.0 (Linux, 64-bit, Shell)":
   tags:

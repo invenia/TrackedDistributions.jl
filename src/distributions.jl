@@ -35,9 +35,7 @@ TMVDiagonalNormal(μ::T, logσ::T) where {T<:Real} = TMVDiagonalNormal{Array{T, 
 TMVDiagonalNormal(μ::T, logσ::T) where {T<:AbstractArray} = TMVDiagonalNormal{T}(μ, logσ)
 
 # https://github.com/JuliaLang/julia/pull/26601
-if VERSION >= v"0.7.0-DEV.4743"
-    Base.broadcastable(t::AbstractTMVDiagonalNormal) = Ref(t)
-end
+Base.broadcastable(t::AbstractTMVDiagonalNormal) = Ref(t)
 
 Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:Array{<:Real}}) = MvNormal(d.μ, exp.(d.logσ))
 #Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:TrackedArray}) = MvNormal(d.μ.data, exp.(d.logσ.data))
@@ -52,7 +50,7 @@ Distributions._logpdf(d::TMVDiagonalNormal, x::AbstractArray) = Distributions._l
 Distributions.mean(d::TMVDiagonalNormal) = d.μ
 Distributions.var(d::TMVDiagonalNormal) = exp.(2 * d.logσ)
 Distributions.entropy(d::TMVDiagonalNormal, args...) = Distributions.entropy(convert(MvNormal, d), args...)
-Distributions.cov(d::TMVDiagonalNormal) = VERSION >= v"1.0" ? diagm(0 => Distributions.var(d)) : diagm(Distributions.var(d))
+Distributions.cov(d::TMVDiagonalNormal) = diagm(0 => Distributions.var(d))
 
 Distributions._rand!(d::TMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(Random.GLOBAL_RNG, convert(MvNormal, d), x)
 Distributions._rand!(rng::AbstractRNG, d::TMVDiagonalNormal, x::VecOrMat) = Distributions._rand!(rng, convert(MvNormal, d), x)
