@@ -34,6 +34,11 @@ end
 TMVDiagonalNormal(μ::T, logσ::T) where {T<:Real} = TMVDiagonalNormal{Array{T, 1}}([μ], [logσ]) # Convert to multivariate case
 TMVDiagonalNormal(μ::T, logσ::T) where {T<:AbstractArray} = TMVDiagonalNormal{T}(μ, logσ)
 
+# https://github.com/JuliaLang/julia/pull/26601
+if VERSION >= v"0.7.0-DEV.4743"
+    Base.broadcastable(t::AbstractTMVDiagonalNormal) = Ref(t)
+end
+
 Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:Array{<:Real}}) = MvNormal(d.μ, exp.(d.logσ))
 #Base.convert(::Type{<:MvNormal}, d::TMVDiagonalNormal{<:TrackedArray}) = MvNormal(d.μ.data, exp.(d.logσ.data))
 
