@@ -34,6 +34,10 @@ Tracked = Flux.Tracker.TrackedArray
 
     @test_throws AssertionError TMVDiagonalNormal(zeros(2,2), ones(2,2))
     @test typeof(TMVDiagonalNormal(ones(2)[:, :], ones(2)[:, :])) == typeof(TMVDiagonalNormal(ones(2), ones(2)))
+
+    # Verify that TMVDiagonalNormal is treated as a scalar during broadcast
+    dn = TMVDiagonalNormal([0, 0], [1, 1])
+    @test size(dn .== dn) == ()
 end
 
 @testset "DiagonalNormal API: TrackedArray" begin
@@ -75,6 +79,9 @@ end
 
     @test isa(data(dn), TrackedDistributions.TMVDiagonalNormal{Array{Float64,1}})
 
+    # Verify that TMVDiagonalNormal is treated as a scalar during broadcast
+    dn = TMVDiagonalNormal(Tracked([0., 0]), Tracked([1., 1]))
+    @test size(dn .== dn) == ()
     end
 
 @testset "DiagonalNormal API: Univariate" begin
