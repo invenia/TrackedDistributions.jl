@@ -37,7 +37,7 @@ Tracked = Flux.Tracker.TrackedArray
 
     # Verify that TMVDiagonalNormal is treated as a scalar during broadcast
     dn = TMVDiagonalNormal([0, 0], [1, 1])
-    @test dn .== dn
+    @test size(dn .== dn) == ()
 end
 
 @testset "DiagonalNormal API: TrackedArray" begin
