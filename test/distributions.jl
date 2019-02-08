@@ -81,7 +81,7 @@ end
 
     # Verify that TMVDiagonalNormal is treated as a scalar during broadcast
     dn = TMVDiagonalNormal(Tracked([0., 0]), Tracked([1., 1]))
-    @test dn .== dn
+    @test size(dn .== dn) == ()
     end
 
 @testset "DiagonalNormal API: Univariate" begin
