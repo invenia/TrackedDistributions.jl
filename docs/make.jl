@@ -2,9 +2,10 @@ using Documenter, TrackedDistributions
 
 makedocs(;
     modules=[TrackedDistributions],
-    format=:html,
+    format=Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),
     pages=[
         "Home" => "index.md",
+        "API" => "api.md",
     ],
     repo="https://gitlab.invenia.ca/invenia/TrackedDistributions.jl/blob/{commit}{path}#L{line}",
     sitename="TrackedDistributions.jl",
@@ -13,4 +14,6 @@ makedocs(;
         "assets/invenia.css",
         "assets/logo.png",
     ],
+    strict = true,
+    checkdocs = :exports,
 )
