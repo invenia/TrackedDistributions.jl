@@ -10,10 +10,9 @@ export
     data,
     logσ
 
-using Compat: dropdims
-using Compat.LinearAlgebra
-import Compat.LinearAlgebra: diagm
-using Compat.Random
+using LinearAlgebra
+import LinearAlgebra: diagm
+using Random
 @reexport using Distributions
 
 include("./distributions.jl")
