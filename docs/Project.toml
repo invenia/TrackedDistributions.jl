@@ -1,0 +1,6 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+TrackedDistributions = "b1c9364c-c21d-5dc1-9093-c544b07b6c73"
+
+[compat]
+Documenter = "~0.21"

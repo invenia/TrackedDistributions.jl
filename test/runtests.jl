@@ -1,8 +1,8 @@
 using TrackedDistributions
-using Compat.Test
+using Test
 
-using Compat.LinearAlgebra
-using Compat.Random
+using LinearAlgebra
+using Random
 import Flux
 
 include("distributions.jl")
