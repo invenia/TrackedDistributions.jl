@@ -11,12 +11,9 @@ export
     logσ
 
 using LinearAlgebra
-import LinearAlgebra: diagm
 using Random
 @reexport using Distributions
 
 include("./distributions.jl")
-
-
 
 end
