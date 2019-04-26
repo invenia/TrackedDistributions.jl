@@ -31,7 +31,8 @@ ERROR: MethodError: no method matching Distributions.MvNormal(::TrackedArray{…
 ```
 TrackedDistributions extends Distributions such that it can work with TrackedArrays, like this:
 
-CAUTION: This is a pretty barebones package, and is pretty limited in terms coverage of the distributions in Distributions. By "limited", there is one distribution covered...
+# CAUTION
+This is a pretty barebones package, and is pretty limited in terms coverage of the distributions in Distributions. By "limited", there is one distribution covered...
 However, it can be extended to include other relevant Distributions of interest, while a more robust solution of integrating Flux/Zygote and Distributions can be found. 
 
 
