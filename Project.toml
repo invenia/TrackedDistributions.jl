@@ -1,6 +1,6 @@
 name = "TrackedDistributions"
 uuid = "b1c9364c-c21d-5dc1-9093-c544b07b6c73"
-authors = ["Alex Robson"]
+authors = ["Invenia Technical Computing"]
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -12,7 +12,7 @@ Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 [compat]
 Flux = ">=0.6.10"
 Reexport = ">= 0.1.0"
-julia = ">= 1.0"
+julia = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
