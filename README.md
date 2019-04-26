@@ -1,10 +1,9 @@
 # TrackedDistributions
 
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://invenia.github.io/TrackedDistributions.jl/stable)
 [![Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://invenia.github.io/TrackedDistributions.jl/dev)
-[![Build Status](https://github.com/invenia/TrackedDistributions.jl/badges/master/build.svg)](https://github.com/invenia/TrackedDistributions.jl/commits/master)
-[![Coverage](https://github.com/invenia/TrackedDistributions.jl/badges/master/coverage.svg)](https://github.com/invenia/TrackedDistributions.jl/commits/master)
-
-
+[![Build Status](https://github.com/invenia/TrackedDistributions.jl.svg?branch=master)](https://github.com/invenia/TrackedDistributions.jl)
+[![Coverage](https://codecov.io/gh/invenia/TrackedDistributions.jl/badges/master/coverage.svg)](https://codecov.io/gh/invenia/TrackedDistributions.jl/commits/master)
 
 This package is unfortunately needed to combine Distributions.jl with Flux.
 Although we can do this:
@@ -38,8 +37,6 @@ This is a pretty barebones package, and is pretty limited in terms coverage of t
 However, it can be extended to include other relevant Distributions of interest, while a more robust solution of integrating Flux/Zygote and Distributions can be found.
 
 # Examples
-
-
 
 ```
 d = TMVDiagonalNormal(Flux.Tracker.TrackedArray(zeros(2)), Flux.Tracker.TrackedArray(ones(2)))
