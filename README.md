@@ -2,7 +2,7 @@
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://invenia.github.io/TrackedDistributions.jl/stable)
 [![Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://invenia.github.io/TrackedDistributions.jl/dev)
-[![Build Status](https://github.com/invenia/TrackedDistributions.jl.svg?branch=master)](https://github.com/invenia/TrackedDistributions.jl)
+[![Build Status](https://travis-ci.com/invenia/TrackedDistributions.jl.svg?branch=master)](https://github.com/invenia/TrackedDistributions.jl)
 [![Coverage](https://codecov.io/gh/invenia/TrackedDistributions.jl/badges/master/coverage.svg)](https://codecov.io/gh/invenia/TrackedDistributions.jl/commits/master)
 
 This package is unfortunately needed to combine Distributions.jl with Flux.
