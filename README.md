@@ -1,8 +1,8 @@
 # TrackedDistributions
 
-[![Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://research.pages.invenia.ca/TrackedDistributions.jl/)
-[![Build Status](https://gitlab.invenia.ca/research/TrackedDistributions.jl/badges/master/build.svg)](https://gitlab.invenia.ca/research/TrackedDistributions.jl/commits/master)
-[![Coverage](https://gitlab.invenia.ca/research/TrackedDistributions.jl/badges/master/coverage.svg)](https://gitlab.invenia.ca/research/TrackedDistributions.jl/commits/master)
+[![Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://invenia.github.io/TrackedDistributions.jl/dev)
+[![Build Status](https://github.com/invenia/TrackedDistributions.jl/badges/master/build.svg)](https://github.com/invenia/TrackedDistributions.jl/commits/master)
+[![Coverage](https://github.com/invenia/TrackedDistributions.jl/badges/master/coverage.svg)](https://github.com/invenia/TrackedDistributions.jl/commits/master)
 
 
 
@@ -32,7 +32,7 @@ ERROR: MethodError: no method matching Distributions.MvNormal(::TrackedArray{…
 TrackedDistributions extends Distributions such that it can work with TrackedArrays, like this:
 
 CAUTION: This is a pretty barebones package, and is pretty limited in terms coverage of the distributions in Distributions. By "limited", there is one distribution covered...
-However, it can be extended to include other relevant Distributions of interest, while a more robust solution of integrating Flux/Zygote and Distributions can be found. 
+However, it can be extended to include other relevant Distributions of interest, while a more robust solution of integrating Flux/Zygote and Distributions can be found.
 
 
 ```
