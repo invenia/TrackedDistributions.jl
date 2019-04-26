@@ -102,7 +102,7 @@ end
 #
 #
 """
-    rand(rng, d::DiagonalNormal)
+    sample(rng, d::DiagonalNormal)
 
     Used for the Reparametrization trick.  Note we pass in rng.
     TODO: Convert to sampler and rand
