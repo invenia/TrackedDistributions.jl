@@ -28,14 +28,18 @@ dim: 2
 , [1.0, 1.0])
 julia> MvNormal(Flux.Tracker.TrackedArray(zeros(2)), Flux.Tracker.TrackedArray(ones(2)))
 ERROR: MethodError: no method matching Distributions.MvNormal(::TrackedArray{…,Array{Float64,1}}, ::TrackedArray{…,Array{Float64,1}})
-```
-TrackedDistributions extends Distributions such that it can work with TrackedArrays, like this:
 
+TrackedDistributions extends Distributions such that it can work with TrackedArrays, such as given in the examples
+
+```
 # A note of expectations
 This is a pretty barebones package, and is pretty limited in terms coverage of the distributions in Distributions. By "limited", there is one distribution covered at present...
 However, it can be extended to include other relevant Distributions of interest, while a more robust solution of integrating Flux/Zygote and Distributions can be found. 
 
 # Examples
+
+
+
 ```
 d = TMVDiagonalNormal(Flux.Tracker.TrackedArray(zeros(2)), Flux.Tracker.TrackedArray(ones(2)))
 ```
