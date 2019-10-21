@@ -5,19 +5,18 @@ version = "0.1.0"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
-Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
+Tracker = "9f7883ad-71c0-57eb-9f7f-b5c9e6d3789c"
 
 [compat]
-Flux = ">=0.6.10"
-Reexport = ">= 0.1.0"
+Reexport = "0.2"
+Tracker = "0.2"
 julia = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-TrackedDistributions = "b1c9364c-c21d-5dc1-9093-c544b07b6c73"
 
 [targets]
-test = ["TrackedDistributions", "Test"]
+test = ["Test"]

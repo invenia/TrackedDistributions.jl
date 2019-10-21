@@ -1,8 +1,7 @@
-using TrackedDistributions
-using Test
-
 using LinearAlgebra
 using Random
-import Flux
+using Test
+using TrackedDistributions
+using Tracker
 
 include("distributions.jl")

@@ -1,6 +1,4 @@
-import Flux.Tracker:
-    TrackedArray,
-    TrackedReal
+import Tracker: TrackedArray, TrackedReal
 
 # const TrArray = Union{Array{<:Real}, TrackedArray}
 # const TrArray1 = Union{Array{<:Real, 1}, TrackedArray{<:Real, 1, <:AbstractArray{<:Real, 1}}}
