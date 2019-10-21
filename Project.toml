@@ -1,6 +1,7 @@
 name = "TrackedDistributions"
 uuid = "b1c9364c-c21d-5dc1-9093-c544b07b6c73"
 authors = ["Invenia Technical Computing"]
+version = "0.1.0"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
