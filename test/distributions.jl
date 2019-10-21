@@ -1,5 +1,3 @@
-Tracked = Flux.Tracker.TrackedArray
-
 @testset "DiagonalNormal API: Reals" begin
     dn = TMVDiagonalNormal([0, 0], [1, 1])
     dn = TMVDiagonalNormal([0., 0.], [1., 1.])
@@ -41,16 +39,16 @@ Tracked = Flux.Tracker.TrackedArray
 end
 
 @testset "DiagonalNormal API: TrackedArray" begin
-    dn = TMVDiagonalNormal(Tracked([0., 0]), Tracked([1., 1]))
+    dn = TMVDiagonalNormal(TrackedArray([0., 0]), TrackedArray([1., 1]))
     @test length(dn) == 2
     @test size(dn) == (2,)
     @test eltype(dn) == Float64
-    @test mean(dn) == Tracked([0, 0])
-    @test isa(mean(dn), Tracked)
-    @test var(dn) == exp(2) * Tracked([1, 1])
-    @test isa(var(dn), Tracked)
-    @test cov(dn) == Tracked(diagm(0 => fill(exp(2), 2)))
-    @test isa(cov(dn), Tracked)
+    @test mean(dn) == TrackedArray([0, 0])
+    @test isa(mean(dn), TrackedArray)
+    @test var(dn) == exp(2) * TrackedArray([1, 1])
+    @test isa(var(dn), TrackedArray)
+    @test cov(dn) == TrackedArray(diagm(0 => fill(exp(2), 2)))
+    @test isa(cov(dn), TrackedArray)
     @test cor(dn) == Diagonal(ones(2))
     rng = MersenneTwister(23)
     @test size(rand(rng, dn)) == (2,)
@@ -66,7 +64,7 @@ end
     @test_throws MethodError entropy(dn)
     @test_nowarn loglikelihood(dn, [[0 1]; [0 1]])
 
-    dn = TMVDiagonalNormal(Tracked([0, 0]), Tracked([1, 1]))
+    dn = TMVDiagonalNormal(TrackedArray([0, 0]), TrackedArray([1, 1]))
     rng = MersenneTwister(23)
     @test size(rand(rng, dn)) == (2,)
 
@@ -80,7 +78,7 @@ end
     @test isa(data(dn), TrackedDistributions.TMVDiagonalNormal{Array{Float64,1}})
 
     # Verify that TMVDiagonalNormal is treated as a scalar during broadcast
-    dn = TMVDiagonalNormal(Tracked([0., 0]), Tracked([1., 1]))
+    dn = TMVDiagonalNormal(TrackedArray([0., 0]), TrackedArray([1., 1]))
     @test size(dn .== dn) == ()
     end
 
@@ -119,8 +117,8 @@ end
     DN = TMVDiagonalNormal(μ, log.(σ))
     @test logσ(DN) == log.(σ)
     @test typeof(logσ(DN)) <: Vector{Float64}
-    DN = TMVDiagonalNormal(Tracked(μ), Tracked(log.(σ)))
-    @test logσ(DN) == Tracked(log.(σ))
-    @test typeof(logσ(DN)) <: Tracked{T, N, Array{T,N}} where {T, N}
+    DN = TMVDiagonalNormal(TrackedArray(μ), TrackedArray(log.(σ)))
+    @test logσ(DN) == TrackedArray(log.(σ))
+    @test typeof(logσ(DN)) <: TrackedArray{T, N, Array{T,N}} where {T, N}
 
 end
