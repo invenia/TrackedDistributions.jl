@@ -2,7 +2,7 @@
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://invenia.github.io/TrackedDistributions.jl/stable)
 [![Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://invenia.github.io/TrackedDistributions.jl/dev)
-[![Build Status](https://travis-ci.com/invenia/TrackedDistributions.jl.svg?branch=master)](https://github.com/invenia/TrackedDistributions.jl)
+[![CI](https://github.com/Invenia/TrackedDistributions.jl/workflows/CI/badge.svg)](https://github.com/Invenia/TrackedDistributions.jl/actions?query=workflow%3ACI)
 [![Coverage](https://codecov.io/gh/invenia/TrackedDistributions.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/invenia/TrackedDistributions.jl/commits/master)
 
 This package is unfortunately needed to combine Distributions.jl with Flux.
@@ -79,7 +79,7 @@ Tracked 2-element Array{Float64,1}:
 
 cov(d1)
 Tracked 2×2 Array{Float64,2}:
-7.38906  0.0    
+7.38906  0.0
 0.0      7.38906
 
 ```
