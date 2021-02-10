@@ -17,9 +17,9 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "d3d0a4e0d5bc03a6c97f4d249c8a471fc20a2f33"
+git-tree-sha1 = "53fed426c9af1eb68e63b3999e96454c2db79757"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "0.9.28"
+version = "0.9.27"
 
 [[CommonSubexpressions]]
 deps = ["MacroTools", "Test"]
@@ -40,9 +40,9 @@ uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 version = "0.3.4+0"
 
 [[DataAPI]]
-git-tree-sha1 = "8ab70b4de35bb3b8cc19654f6b893cf5164f8ee8"
+git-tree-sha1 = "6d64b28d291cb94a0d84e6e41081fb081e7f717f"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
-version = "1.5.1"
+version = "1.5.0"
 
 [[DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -76,9 +76,9 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[Distributions]]
 deps = ["FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns"]
-git-tree-sha1 = "110682532fd01c32af42d55439e48991c21d2a7f"
+git-tree-sha1 = "f0e06a5b5ccda38e2fb8f59d91316e657b67047d"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
-version = "0.24.11"
+version = "0.24.12"
 
 [[DocStringExtensions]]
 deps = ["LibGit2", "Markdown", "Pkg", "Test"]
@@ -114,6 +114,7 @@ uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
 version = "1.2.0"
 
 [[LibGit2]]
+deps = ["Printf"]
 uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
 
 [[Libdl]]
@@ -147,9 +148,9 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[NNlib]]
 deps = ["ChainRulesCore", "Compat", "LinearAlgebra", "Pkg", "Requires", "Statistics"]
-git-tree-sha1 = "df42d0816edfc24f5b82a728f46381613c4dff79"
+git-tree-sha1 = "573cc0d31f9697b9d2b060130a7a3c05a4f36b78"
 uuid = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
-version = "0.7.14"
+version = "0.7.12"
 
 [[NaNMath]]
 git-tree-sha1 = "bfe47e760d60b82b66b61d2d44128b62e3a369fb"
@@ -174,7 +175,7 @@ uuid = "90014a1f-27ba-587c-ab20-58faa44d9150"
 version = "0.10.1"
 
 [[Pkg]]
-deps = ["Dates", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Test", "UUIDs"]
+deps = ["Dates", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "UUIDs"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [[Printf]]
@@ -281,7 +282,7 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 deps = ["Distributions", "LinearAlgebra", "Random", "Reexport", "Tracker"]
 path = ".."
 uuid = "b1c9364c-c21d-5dc1-9093-c544b07b6c73"
-version = "1.0.0"
+version = "1.0.1"
 
 [[Tracker]]
 deps = ["Adapt", "DiffRules", "ForwardDiff", "LinearAlgebra", "MacroTools", "NNlib", "NaNMath", "Printf", "Random", "Requires", "SpecialFunctions", "Statistics"]
