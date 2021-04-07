@@ -23,8 +23,8 @@
     # gaussian evaluated at [1, 1]
     value = max_gaussian * prod(exp.(- [1, 1]/(2 * var(dn)[1])))
     expected_vec = [max_gaussian, value]
-    @test pdf(dn, [0, 0]) == max_gaussian
-    @test pdf(dn, [[0 1]; [0 1]]) == expected_vec
+    @test pdf(dn, [0, 0]) ≈ max_gaussian
+    @test pdf(dn, [[0 1]; [0 1]]) ≈ expected_vec
     @test logpdf(dn, [0, 0]) == log(max_gaussian)
     @test logpdf(dn, [[0 1]; [0 1]]) == log.(expected_vec)
     @test entropy(dn) == entropy(mv)
